@@ -2,10 +2,10 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.urls import is_valid_path
 from .models import Review, Comment
 from .forms import ReviewForm, CommentForm
 from django.http import JsonResponse
+
 
 # Create your views here.
 def index(request):
@@ -108,3 +108,21 @@ def comment_delete(request, review_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.delete()
     return redirect('reviews:detail', review_pk)
+
+@login_required
+def like(request, pk):
+  review = get_object_or_404(Review, pk=pk)
+  if request.user in review.like_users.all(): 
+    # 좋아요 삭제
+    review.like_users.remove(request.user)
+    is_liked = False
+  else:
+    # 좋아요 추가
+    review.like_users.add(request.user)
+    is_liked = True
+  # 상세 페이지로 redirect
+  context = {'isLiked': is_liked, 
+             'likeCount': review.like_users.count(),
+            }
+  return JsonResponse(context)
+
