@@ -20,15 +20,15 @@
   <div class="mb-3 mt-3">
     <label for="reviewContent" class="form-label">내용</label><br>
     {% if review.image %}
-    <img src="{{ review.image.url }}" alt="{{ review.image }}" width="400" height="300">
+    <img class="mb-2" src="{{ review.image.url }}" alt="{{ review.image }}" width="400" height="300">
     {% endif %}  
-    <textarea name='content' class="form-control" id="reviewContent" rows="3" disabled="disabled" readonly="readonly">{{ review.content }}
+    <textarea name='content' class="form-control" id="reviewContent" rows="3" readonly="readonly">{{ review.content }}
     </textarea>
   </div>
 
   {% if request.user == review.user %}
   <div>
-  <a class="btn btn-outline-primary my-3" href="#">수정하기</a>
+  <a class="btn btn-outline-primary my-3" href="{% url 'reviews:update' review.pk %}">수정하기</a>
   <a class="btn btn-outline-danger my-3" href="#">삭제하기</a>
   </div>
   {% endif %}

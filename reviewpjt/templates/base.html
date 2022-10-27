@@ -34,7 +34,9 @@
     {% bootstrap_css %}
     {% block css %}
       <link rel="stylesheet" href="{% static 'css/movie.css' %}">
-    {% endblock css %}
+      <!-- CSS only -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">    
+      {% endblock css %}
 
   </head>
 
@@ -53,7 +55,7 @@
             <a class="nav-link active" href="{% url 'reviews:index' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Community</a>
+            <a class="nav-link" href="{% url 'reviews:community' %}">Community</a>
           </li>
           {% if request.user.is_authenticated %} 
             <li class="nav-item">
