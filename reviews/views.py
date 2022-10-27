@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import is_valid_path
-from .models import Review
+from .models import Review, Comment
 from .forms import ReviewForm, CommentForm
 from django.http import JsonResponse
 
@@ -103,3 +103,8 @@ def comment_create(request, pk):
             'userName': comment.user.username
         }
     return JsonResponse(context)
+
+def comment_delete(request, review_pk, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.delete()
+    return redirect('reviews:detail', review_pk)
